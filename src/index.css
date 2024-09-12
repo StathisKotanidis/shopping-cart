@@ -1,13 +1,276 @@
-body {
+/* body { */
+/*  */
+
+/* display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; */
+/* } */
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgb(190, 187, 187);
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.app-container {
+  width: 90rem;
+  height: 40rem;
+  border: 1px solid red;
+  border-radius: 20px;
+  display: flex;
+}
+
+.shopping-cart-container {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 20px;
+  position: relative;
+}
+
+.shopping-cart-container ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-top: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+#checkout-btn {
+  width: 100px;
+  background-color: black;
+  color: white;
+  padding: 5px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+#checkout-btn:hover {
+  cursor: pointer;
+}
+
+.item-container {
+  display: flex;
+  gap: 6rem;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid rgb(190, 187, 187);
+  padding-top: 30px;
+}
+
+.item-container img {
+  width: 60px;
+  height: 80px;
+}
+
+.item-description {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+}
+
+#clothing-type {
+  color: grey;
+  font-weight: bold;
+}
+
+.item-quantity {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#remove:hover,
+#add:hover {
+  cursor: pointer;
+}
+
+#price {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#delete {
+  font-size: 1.3rem;
+}
+
+#delete:hover {
+  cursor: pointer;
+}
+
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  padding: 1rem;
+  justify-content: space-around;
+}
+
+.checkout-container h2 {
+  font-size: 2rem;
+  border-bottom: 1px solid rgb(100, 98, 98);
+  padding-bottom: 12px;
+}
+
+.price-before-shipping {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.3rem;
+}
+
+.final-price {
+  font-size: 1.5rem;
+  text-align: center;
 }
