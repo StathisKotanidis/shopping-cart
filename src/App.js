@@ -30,15 +30,22 @@ const items = [
 ];
 
 export default function App() {
+  const [open, setOpen] = useState(false);
+
+  function handleOpen() {
+    console.log("checkout button clicked");
+    setOpen(true);
+  }
+
   return (
     <div className="app-container">
-      <ShoppingCart />
-      <Checkout />
+      <ShoppingCart onOpen={handleOpen} />
+      <Checkout open={open} />
     </div>
   );
 }
 
-function ShoppingCart() {
+function ShoppingCart({ onOpen }) {
   return (
     <div className="shopping-cart-container">
       <div className="header">
@@ -50,7 +57,7 @@ function ShoppingCart() {
           <PieceOfClothing item={item} key={item.id} />
         ))}
       </ul>
-      <button id="checkout-btn">Checkout ➡</button>
+      <Button onClick={onOpen}>Checkout ➡</Button>
     </div>
   );
 }
@@ -97,15 +104,15 @@ function PieceOfClothing({ item }) {
   );
 }
 
-function Checkout() {
-  return (
+function Checkout({ open }) {
+  return open ? (
     <div className="checkout-container">
       <h2>Summary</h2>
       <div className="price-before-shipping">
         <span>ITEMS 3</span>
         <span>€ 132.00</span>
       </div>
-      <div>
+      <div className="shipping-container">
         <h3>SHIPPING</h3>
         <select>
           <option>Standard-Delivery-€5.00 (3-4 Days)</option>
@@ -114,7 +121,18 @@ function Checkout() {
         </select>
       </div>
       <p className="final-price">TOTAL PRICE € 137.00</p>
-      <button>CHECKOUT</button>
+      <Button>CHECKOUT</Button>
+      <Button>⬅ Back To Shop </Button>
     </div>
+  ) : null;
+}
+
+function Button({ children, onClick }) {
+  return (
+    <button onClick={onClick} id="checkout-btn">
+      {children}
+    </button>
   );
 }
+
+function test() {}

@@ -154,7 +154,6 @@ body {
 .app-container {
   width: 90rem;
   height: 40rem;
-  border: 1px solid red;
   border-radius: 20px;
   display: flex;
 }
@@ -165,7 +164,8 @@ body {
   flex-direction: column;
   padding: 2rem;
   background-color: white;
-  border-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
   position: relative;
 }
 
@@ -256,6 +256,10 @@ body {
   width: 30%;
   padding: 1rem;
   justify-content: space-around;
+  position: relative;
+  background-color: lightgray;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .checkout-container h2 {
@@ -268,6 +272,20 @@ body {
   display: flex;
   justify-content: space-between;
   font-size: 1.3rem;
+}
+
+.shipping-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.shipping-container h3 {
+  font-size: 1.5rem;
+}
+
+.shipping-container select {
+  padding: 10px;
 }
 
 .final-price {
