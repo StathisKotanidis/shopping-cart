@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const items = [
+const itemsArr = [
   {
     id: 1,
     type: "Shirt",
@@ -30,22 +30,45 @@ const items = [
 ];
 
 export default function App() {
-  const [open, setOpen] = useState(false);
+  const [toggle, setToggle] = useState(false);
 
-  function handleOpen() {
-    console.log("checkout button clicked");
-    setOpen(true);
+  function handleToggle() {
+    setToggle(!toggle);
   }
+
+  const [items, setItems] = useState(itemsArr);
+  const updateQuantity = (id, delta) => {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+          : item
+      )
+    );
+  };
+
+  const totalPrice = items.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
   return (
     <div className="app-container">
-      <ShoppingCart onOpen={handleOpen} />
-      <Checkout open={open} />
+      <ShoppingCart
+        onToggle={handleToggle}
+        items={items}
+        updateQuantity={updateQuantity}
+      />
+      <Checkout
+        toggle={toggle}
+        onToggle={handleToggle}
+        totalPrice={totalPrice}
+      />
     </div>
   );
 }
 
-function ShoppingCart({ onOpen }) {
+function ShoppingCart({ onToggle, items, updateQuantity }) {
   return (
     <div className="shopping-cart-container">
       <div className="header">
@@ -54,32 +77,20 @@ function ShoppingCart({ onOpen }) {
       </div>
       <ul>
         {items.map((item) => (
-          <PieceOfClothing item={item} key={item.id} />
+          <PieceOfClothing
+            item={item}
+            key={item.id}
+            onIncrease={() => updateQuantity(item.id, 1)}
+            onDecrease={() => updateQuantity(item.id, -1)}
+          />
         ))}
       </ul>
-      <Button onClick={onOpen}>Checkout ➡</Button>
+      <Button onClick={onToggle}>Checkout ➡</Button>
     </div>
   );
 }
 
-function PieceOfClothing({ item }) {
-  const [quantity, setQuantity] = useState(item.quantity);
-  const [price, setPrice] = useState(item.price);
-
-  const startingPrice = item.price;
-
-  function handIncreaseleQuantity() {
-    setQuantity((quantity) => quantity + 1);
-    setPrice((price) => price + startingPrice);
-  }
-
-  function handleDecreaseQuantity() {
-    setQuantity((q) => (q >= 2 ? q - 1 : q));
-    setPrice((price) =>
-      price > startingPrice ? price - startingPrice : startingPrice
-    );
-  }
-
+function PieceOfClothing({ item, onIncrease, onDecrease }) {
   return (
     <>
       <li className="item-container">
@@ -89,28 +100,28 @@ function PieceOfClothing({ item }) {
           <span>{item.description}</span>
         </div>
         <div className="item-quantity">
-          <button id="remove" onClick={handleDecreaseQuantity}>
+          <button id="remove" onClick={onDecrease}>
             -
           </button>
-          <span> {quantity} </span>
-          <button id="add" onClick={handIncreaseleQuantity}>
+          <span> {item.quantity} </span>
+          <button id="add" onClick={onIncrease}>
             +
           </button>
         </div>
-        <span id="price">€ {price}</span>
+        <span id="price">€ {item.price * item.quantity}.00</span>
         <span id="delete">✖</span>
       </li>
     </>
   );
 }
 
-function Checkout({ open }) {
-  return open ? (
+function Checkout({ toggle, onToggle, totalPrice }) {
+  return toggle ? (
     <div className="checkout-container">
       <h2>Summary</h2>
       <div className="price-before-shipping">
-        <span>ITEMS 3</span>
-        <span>€ 132.00</span>
+        <span>ITEMS {itemsArr.length}</span>
+        <span>€ {totalPrice}.00</span>
       </div>
       <div className="shipping-container">
         <h3>SHIPPING</h3>
@@ -121,8 +132,10 @@ function Checkout({ open }) {
         </select>
       </div>
       <p className="final-price">TOTAL PRICE € 137.00</p>
-      <Button>CHECKOUT</Button>
-      <Button>⬅ Back To Shop </Button>
+      <Button>Place order</Button>
+      <button id="back-to-shop" onClick={onToggle}>
+        ⬅ Back to shop
+      </button>
     </div>
   ) : null;
 }
@@ -134,5 +147,3 @@ function Button({ children, onClick }) {
     </button>
   );
 }
-
-function test() {}
