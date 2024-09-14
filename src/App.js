@@ -47,6 +47,10 @@ export default function App() {
     );
   };
 
+  function handleDelete(id) {
+    setItems((items) => items.filter((item) => item.id !== id));
+  }
+
   const totalPrice = items.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -58,6 +62,7 @@ export default function App() {
         onToggle={handleToggle}
         items={items}
         updateQuantity={updateQuantity}
+        onDelete={handleDelete}
       />
       <Checkout
         toggle={toggle}
@@ -68,7 +73,7 @@ export default function App() {
   );
 }
 
-function ShoppingCart({ onToggle, items, updateQuantity }) {
+function ShoppingCart({ onToggle, items, updateQuantity, onDelete }) {
   return (
     <div className="shopping-cart-container">
       <div className="header">
@@ -82,6 +87,7 @@ function ShoppingCart({ onToggle, items, updateQuantity }) {
             key={item.id}
             onIncrease={() => updateQuantity(item.id, 1)}
             onDecrease={() => updateQuantity(item.id, -1)}
+            onDelete={onDelete}
           />
         ))}
       </ul>
@@ -90,7 +96,7 @@ function ShoppingCart({ onToggle, items, updateQuantity }) {
   );
 }
 
-function PieceOfClothing({ item, onIncrease, onDecrease }) {
+function PieceOfClothing({ item, onIncrease, onDecrease, onDelete }) {
   return (
     <>
       <li className="item-container">
@@ -109,13 +115,20 @@ function PieceOfClothing({ item, onIncrease, onDecrease }) {
           </button>
         </div>
         <span id="price">€ {item.price * item.quantity}.00</span>
-        <span id="delete">✖</span>
+        <span id="delete" onClick={() => onDelete(item.id)}>
+          ✖
+        </span>
       </li>
     </>
   );
 }
 
 function Checkout({ toggle, onToggle, totalPrice }) {
+  const [shippingPrice, setShippingPrice] = useState(5);
+
+  function handleShippingPrice(e) {
+    setShippingPrice(Number(e.target.value));
+  }
   return toggle ? (
     <div className="checkout-container">
       <h2>Summary</h2>
@@ -125,13 +138,15 @@ function Checkout({ toggle, onToggle, totalPrice }) {
       </div>
       <div className="shipping-container">
         <h3>SHIPPING</h3>
-        <select>
-          <option>Standard-Delivery-€5.00 (3-4 Days)</option>
-          <option>Fast-Delivery-€8.00 (2-3 Days)</option>
-          <option>Express-Delivery-€12.00 (1 Day)</option>
+        <select onChange={handleShippingPrice}>
+          <option value={5}>Standard-Delivery-€5.00 (3-4 Days)</option>
+          <option value={8}>Fast-Delivery-€8.00 (2-3 Days)</option>
+          <option value={12}> Express-Delivery-€12.00 (1 Day)</option>
         </select>
       </div>
-      <p className="final-price">TOTAL PRICE € 137.00</p>
+      <p className="final-price">
+        TOTAL PRICE €{totalPrice + shippingPrice}.00
+      </p>
       <Button>Place order</Button>
       <button id="back-to-shop" onClick={onToggle}>
         ⬅ Back to shop
